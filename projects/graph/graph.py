@@ -94,7 +94,22 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+
+        # create a set to keep track of visited vertices
+        vertices_already_visited = set()
+
+        def dft_helper(starting_vertex):
+
+            # process current vertex if it hasn't been visited yet
+            if starting_vertex not in vertices_already_visited:
+                print(starting_vertex)
+
+                # mark current vertex as visited
+                vertices_already_visited.add(starting_vertex)
+
+                # add all neighbors to stack
+                for neighbor in self.get_neighbors(starting_vertex):
+                    dft_helper(neighbor)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
