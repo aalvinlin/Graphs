@@ -119,7 +119,38 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # create a queue to hold vertices to traverse
+        vertices_to_visit = Queue()
+
+        # initialize queue with starting vertex
+        vertices_to_visit.enqueue(starting_vertex)
+
+        # initialize path so far with starting vertex
+        path_so_far = starting_vertex
+
+        # use a dictionary to keep track of visited vertices and their path from the starting node
+        vertices_already_visited = dict()
+
+        while vertices_to_visit.size() > 0:
+
+            # get next vertex in line
+            current_vertex = vertices_to_visit.dequeue()
+
+            # process current vertex if it hasn't been visited yet
+            if current_vertex not in vertices_already_visited:
+                print(current_vertex)
+
+                # mark current vertex as visited and store its path at the same time
+                vertices_already_visited[current_vertex] = path_so_far + current_vertex
+                
+                # add all neighbors to queue
+                for neighbor in self.get_neighbors(current_vertex):
+                    vertices_to_visit.enqueue(neighbor)
+            
+            # destination vertex found; return its path
+            elif current_vertex == destination_vertex:
+                return vertices_already_visited[current_vertex]
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -197,12 +228,12 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    print("Breadth-first search:", graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    print("Depth-first search:", graph.dfs(1, 6))
+    print("Recursive depth-first search:", graph.dfs_recursive(1, 6))
