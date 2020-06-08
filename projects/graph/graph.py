@@ -95,9 +95,6 @@ class Graph:
         This should be done using recursion.
         """
 
-        # create a set to keep track of visited vertices
-        vertices_already_visited = set()
-
         def dft_helper(starting_vertex):
 
             # process current vertex if it hasn't been visited yet
@@ -110,6 +107,11 @@ class Graph:
                 # add all neighbors to stack
                 for neighbor in self.get_neighbors(starting_vertex):
                     dft_helper(neighbor)
+       
+        # create a set to keep track of visited vertices
+        vertices_already_visited = set()
+
+        dft_helper(starting_vertex)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
