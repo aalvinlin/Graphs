@@ -43,16 +43,19 @@ class Graph:
 
         while vertices_to_visit.size() > 0:
 
-            # process current vertex
+            # get next vertex in line
             current_vertex = vertices_to_visit.dequeue()
-            print(current_vertex)
 
-            # mark current vertex as visited
-            vertices_already_visited.add(current_vertex)
+            # process current vertex if it hasn't been visited yet
+            if current_vertex not in vertices_already_visited:
+                print(current_vertex)
 
-            # add all neighbors to queue
-            for neighbor in self.get_neighbors(current_vertex):
-                vertices_to_visit.enqueue(neighbor)
+                # mark current vertex as visited
+                vertices_already_visited.add(current_vertex)
+
+                # add all neighbors to queue
+                for neighbor in self.get_neighbors(current_vertex):
+                    vertices_to_visit.enqueue(neighbor)
 
     def dft(self, starting_vertex):
         """
@@ -70,16 +73,19 @@ class Graph:
 
         while vertices_to_visit.size() > 0:
 
-            # process current vertex
+            # get next vertex in line
             current_vertex = vertices_to_visit.pop()
-            print(current_vertex)
 
-            # mark current vertex as visited
-            vertices_already_visited.add(current_vertex)
+            # process current vertex if it hasn't been visited yet
+            if current_vertex not in vertices_already_visited:
+                print(current_vertex)
 
-            # add all neighbors to stack
-            for neighbor in self.get_neighbors(current_vertex):
-                vertices_to_visit.push(neighbor)
+                # mark current vertex as visited
+                vertices_already_visited.add(current_vertex)
+
+                # add all neighbors to stack
+                for neighbor in self.get_neighbors(current_vertex):
+                    vertices_to_visit.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
