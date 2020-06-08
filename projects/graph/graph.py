@@ -51,7 +51,7 @@ class Graph:
             vertices_already_visited.add(current_vertex)
 
             # add all neighbors to queue
-            for neighbor in self.get_neighbors[current_vertex]:
+            for neighbor in self.get_neighbors(current_vertex):
                 vertices_to_visit.enqueue(neighbor)
 
     def dft(self, starting_vertex):
@@ -78,7 +78,7 @@ class Graph:
             vertices_already_visited.add(current_vertex)
 
             # add all neighbors to stack
-            for neighbor in self.get_neighbors[current_vertex]:
+            for neighbor in self.get_neighbors(current_vertex):
                 vertices_to_visit.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
