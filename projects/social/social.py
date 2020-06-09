@@ -1,5 +1,5 @@
 import random
-from names import names, create_random_name
+from names import create_random_name
 
 class User:
     def __init__(self, name):
