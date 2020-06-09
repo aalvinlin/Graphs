@@ -104,7 +104,7 @@ class Graph:
                 # mark current vertex as visited
                 vertices_already_visited.add(starting_vertex)
 
-                # add all neighbors to stack
+                # process all neighbors recursively
                 for neighbor in self.get_neighbors(starting_vertex):
                     dft_helper(neighbor)
        
@@ -238,15 +238,42 @@ class Graph:
 
         This should be done using recursion.
         """
+        def dfs_helper(starting_vertex, destination_vertex, path_so_far):
+
+            # process current vertex if it hasn't been visited yet
+            if starting_vertex not in vertices_already_visited:   
+
+                vertices_already_visited.add(starting_vertex)
+
+                # if the vertex has been found elsewhere, stop recursion
+                if vertex_found:
+                    return
+                
+                elif starting_vertex == destination_vertex:
+                    final_path = path_so_far[:]
+                    final_path.append(starting_vertex)
+
+                    # add answer to dictionary to be returned
+                    answer[destination_vertex] = final_path
+                    
+                else:
+                    for neighbor in self.get_neighbors(starting_vertex):
+                        new_path = path_so_far[:]
+                        new_path.append(starting_vertex)
+                        dfs_helper(neighbor, destination_vertex, new_path)
+
+        # create a set to keep track of visited vertices
+        vertices_already_visited = set()
+
+        # create a flag to deteremine whether to continue recursion
         vertex_found = False
+
+        # create a variable to hold the answer
+        answer = dict()
         
-        def dfs_helper(starting_vertex, destination_vertex):
+        dfs_helper(starting_vertex, destination_vertex, [])
 
-            # if the vertex has been found elsewhere, stop recursion
-            if vertex_found:
-                return
-
-        dfs_helper(starting_vertex, destination_vertex)
+        return answer[destination_vertex]
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
