@@ -104,7 +104,6 @@ def earliest_ancestor_v1(ancestors, starting_node):
 def earliest_ancestor_v2(ancestors, starting_node):
 
     known_parents = dict()
-    
     depths = dict()
 
     # store parent-child information immediately available from "ancestors" in a dictionary
@@ -120,32 +119,30 @@ def earliest_ancestor_v2(ancestors, starting_node):
             known_parents[parent] = []
 
     # assign a generation for each ancestral node that can be reached from a starting node
-    def assign_depths(starting_node, current_depth):
+    def assign_depths(starting_node, previous_depth):
 
         for parent in known_parents[starting_node]:
             
-            depths[parent] = current_depth + 1
+            if (previous_depth + 1) in depths:
+                depths[previous_depth + 1].append(parent)
+            else:
+                depths[previous_depth + 1] = [parent]
 
-            assign_depths(parent, current_depth + 1)
+            assign_depths(parent, previous_depth + 1)
     
     assign_depths(starting_node, 0)
 
-    # find the furthest node from the starting node
-    deepest_depth = 0
-    deepest_node = None
-
-    for node in depths:
-
-        if depths[node] > deepest_depth:
-            deepest_depth = depths[node]
-            deepest_node = node
-
     # return -1 if the starting node has no ancestors
-    if not deepest_node:
+    if len(depths) == 0:
         return -1
-    else:
-        return deepest_node
 
-test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+    # find the furthest nodes from the starting node
+    # these nodes will be contained in the dictionary entry with the largest key
+    deepest_depth = max(depths.keys())
 
-print(earliest_ancestor(test_ancestors, 6))
+    # if there are multiple nodes with the same depth, return the one with the smallest value
+    return min(depths[deepest_depth])
+
+# test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+
+# print(earliest_ancestor(test_ancestors, 6))
