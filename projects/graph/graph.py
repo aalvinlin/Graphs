@@ -120,16 +120,20 @@ class Graph:
         breath-first order.
         """
         # create a queue to hold vertices to traverse
+        # each queue item will contain an object containing a value and the route taken to get there
         vertices_to_visit = Queue()
 
-        # initialize queue with starting vertex
+        # initialize queue with starting vertex and the path to get there
+        # vertex_data = {"value": starting_vertex, "parent": None}
+        # vertices_to_visit.enqueue(vertex_data)
         vertices_to_visit.enqueue(starting_vertex)
 
-        # initialize path so far with starting vertex
-        path_so_far = starting_vertex
-
         # use a dictionary to keep track of visited vertices and their path from the starting node
-        vertices_already_visited = dict()
+        paths_to_vertices = dict()
+        paths_to_vertices[starting_vertex] = []
+
+        # use a set to keep track of visited vertices
+        vertices_already_visited = set()
 
         while vertices_to_visit.size() > 0:
 
@@ -138,19 +142,33 @@ class Graph:
 
             # process current vertex if it hasn't been visited yet
             if current_vertex not in vertices_already_visited:
-                print(current_vertex)
 
                 # mark current vertex as visited and store its path at the same time
-                vertices_already_visited[current_vertex] = path_so_far + current_vertex
+                vertices_already_visited.add(current_vertex)
                 
-                # add all neighbors to queue
+                # inspect all the neighbors of the current vertex
                 for neighbor in self.get_neighbors(current_vertex):
-                    vertices_to_visit.enqueue(neighbor)
-            
-            # destination vertex found; return its path
-            elif current_vertex == destination_vertex:
-                return vertices_already_visited[current_vertex]
 
+                    # if the target vertex is one of the neighbors, the search is done
+                    # right now paths_to_vertices[current_vertex] only contains all the vertices up to and including the parent vertex
+                    # to return the full path, add both the current vertex and the target vertex first.
+                    if neighbor == destination_vertex:
+                        final_path = paths_to_vertices[current_vertex][:]
+                        final_path.append(current_vertex)
+                        final_path.append(neighbor)
+                        return final_path
+
+                    # add all the other neighbors to the queue
+                    vertices_to_visit.enqueue(neighbor)
+
+                    # store a copy of the current path for each of the neighbors
+                    # take the path leading to current_vertex and add current_vertex to it
+                    # make a copy in order to not modify the original
+                    copy_of_path_to_parent = paths_to_vertices[current_vertex][:]
+                    copy_of_path_to_parent.append(current_vertex)
+
+                    # store path in dictionary
+                    paths_to_vertices[neighbor] = copy_of_path_to_parent
 
     def dfs(self, starting_vertex, destination_vertex):
         """
