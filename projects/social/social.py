@@ -107,3 +107,18 @@ if __name__ == '__main__':
     print("friendships:\n  ", sg.friendships)
     connections = sg.get_all_social_paths(1)
     print("connections:\n  ", connections)
+
+# 3. Questions
+
+"""
+1. To create 100 users with an average of 10 friends each, you would need to call add_frienship() 500 times.
+The total number of links would be 100 * 10, but each call to add_frienship() makes 2 links at once. 1000 / 2 = 500.
+
+2. If you create 1000 users with an average of 5 random friends each,
+
+"""
+
+# 4. Stretch
+"""
+1. No, results like the ones from question #2 above would not be realistic. To more closely model real-life distributions of friendships, the random generation of users should purposely include more people with very few or no friends (perhaps people who have just joined the network). Additionally, limits can be imposed on who can be friends with whom; people in the same geographic area may be more likely to form friendships, and there may be a higher average number of friendships in urban areas compared to rural areas. Another limit can be set on the total number of friends for any given user.
+"""
