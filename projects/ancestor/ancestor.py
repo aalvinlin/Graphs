@@ -101,12 +101,51 @@ def earliest_ancestor_v1(ancestors, starting_node):
     # otherwise, return the last item in the path, which will be the furthest ancestor
     return longest_path[-1]
 
-# test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-
-# print(earliest_ancestor(test_ancestors, 6))
-
 def earliest_ancestor_v2(ancestors, starting_node):
 
+    known_parents = dict()
     
+    depths = dict()
 
-    pass
+    # store parent-child information immediately available from "ancestors" in a dictionary
+    for parent_child_pair in ancestors:
+        parent, child = parent_child_pair
+
+        if child not in known_parents:
+            known_parents[child] = [parent]
+        else:
+            known_parents[child].append(parent)
+
+        if parent not in known_parents:
+            known_parents[parent] = []
+
+    # assign a generation for each ancestral node that can be reached from a starting node
+    def assign_depths(starting_node, current_depth):
+
+        for parent in known_parents[starting_node]:
+            
+            depths[parent] = current_depth + 1
+
+            assign_depths(parent, current_depth + 1)
+    
+    assign_depths(starting_node, 0)
+
+    # find the furthest node from the starting node
+    deepest_depth = 0
+    deepest_node = None
+
+    for node in depths:
+
+        if depths[node] > deepest_depth:
+            deepest_depth = depths[node]
+            deepest_node = node
+
+    # return -1 if the starting node has no ancestors
+    if not deepest_node:
+        return -1
+    else:
+        return deepest_node
+
+test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+
+print(earliest_ancestor(test_ancestors, 6))
