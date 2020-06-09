@@ -1,6 +1,12 @@
+import random
+from names import names, create_random_name
+
 class User:
     def __init__(self, name):
         self.name = name
+    
+    def __repr__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
@@ -42,11 +48,27 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
+        
+        # impossible average: display an error message
+        if avg_friendships >= num_users:
+            print("Could not populate graph: The number of users must be greater than the average number of friendships.")
+            return
 
         # Add users
+        for i in range(1, num_users + 1):
+            self.add_user(create_random_name())
 
         # Create friendships
+        total_friendships = round(avg_friendships * num_users)
+
+        for i in range(total_friendships):
+
+            user1ID = random.randrange(1, num_users + 1)
+            user2ID = random.randrange(1, num_users + 1)
+            
+            # pick a different user ID for user2
+            while user1ID == user2ID:
+                user2ID = random.randrange(1, num_users + 1)
 
     def get_all_social_paths(self, user_id):
         """
@@ -65,6 +87,7 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
-    print(sg.friendships)
+    print("users:\n  ", sg.users)
+    print("friendships:\n  ", sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print("connections:\n  ", connections)
