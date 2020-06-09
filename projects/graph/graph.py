@@ -169,6 +169,10 @@ class Graph:
 
                     # store path in dictionary
                     paths_to_vertices[neighbor] = copy_of_path_to_parent
+        
+        # target not found
+        print("Vertex", destination_vertex, "was not found.")
+        return
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -255,7 +259,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print("Breadth-first search:", graph.bfs(1, 6))
+    print("Breadth-first search:", graph.bfs(1, 10))
 
     '''
     Valid DFS paths:
