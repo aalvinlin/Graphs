@@ -176,7 +176,8 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        
+
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -186,7 +187,15 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        vertex_found = False
+        
+        def dfs_helper(starting_vertex, destination_vertex):
+
+            # if the vertex has been found elsewhere, stop recursion
+            if vertex_found:
+                return
+
+        dfs_helper(starting_vertex, destination_vertex)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
