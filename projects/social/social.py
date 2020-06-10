@@ -1,6 +1,19 @@
 import random
 from names import create_random_name
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -95,8 +108,35 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # store paths to all friends seen so far in a dictionary
+        visited = {}
+        
+        # initialize dictionary with path to self
+        # later connections will build off of this entry
+        visited[user_id] = [1]
+
+        # use a queue to keep track of all friends that have not been visited
+        friends_to_visit = Queue()
+        friends_to_visit.enqueue(user_id)
+
+        while friends_to_visit.size() > 0:
+
+            current_friend_ID = friends_to_visit.dequeue()
+            friends_of_current_friend = self.friendships[current_friend_ID]
+            
+            # process friends of current friend
+            for friend_ID in friends_of_current_friend:
+
+                # add new friend to queue and update path
+                if friend_ID not in visited:
+                    friends_to_visit.enqueue(friend_ID)
+
+                    # make a copy of the path to this friend so far, and add the current friend's ID
+                    # store the path in "visited" to mark the friend as visited
+                    path_to_new_friend = list(visited[current_friend_ID])
+                    path_to_new_friend.append(friend_ID)
+                    visited[friend_ID] = path_to_new_friend
+
         return visited
 
 
