@@ -113,7 +113,7 @@ class SocialGraph:
         
         # initialize dictionary with path to self
         # later connections will build off of this entry
-        visited[user_id] = [1]
+        visited[user_id] = [user_id]
 
         # use a queue to keep track of all friends that have not been visited
         friends_to_visit = Queue()
@@ -142,10 +142,10 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(100, 10)
     print("users:\n  ", sg.users)
     print("friendships:\n  ", sg.friendships)
-    connections = sg.get_all_social_paths(1)
+    connections = sg.get_all_social_paths(5)
     print("connections:\n  ", connections)
 
 # 3. Questions

@@ -1,8 +1,8 @@
 from graph import Graph, Queue, Stack
 
 def earliest_ancestor(ancestors, starting_node):
-    # return earliest_ancestor_v1(ancestors, starting_node)
-    return earliest_ancestor_v2(ancestors, starting_node)
+    return earliest_ancestor_v1(ancestors, starting_node)
+    # return earliest_ancestor_v2(ancestors, starting_node)
 
 def earliest_ancestor_v1(ancestors, starting_node):
 
